@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Note</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  overscroll-behavior:none;
+  touch-action:pan-y;
+
+  width:100%;
+  height:100dvh;
+  overflow:hidden;
+  position:fixed;
+  inset:0;
+  background:#000;
+  color:white;
+  font-family:Georgia, "Times New Roman", serif;
+}
+
+/* ================= STARS ================= */
+
+.stars{
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  opacity:.7;
+  animation:twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle{
+  0%,100%{ opacity:.3; transform:scale(1); }
+  50%{ opacity:1; transform:scale(1.4); }
+}
+
+/* ================= FIXED HEADING ================= */
+
+.final-heading{
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:3;
+
+  font-family:'Segoe Script','Bradley Hand','Brush Script MT','Lucida Handwriting',cursive;
+  font-weight:700;
+  font-size:1.3rem;
+
+  color:#ffe8f5;
+
+  white-space:nowrap;
+  text-align:center;
+  padding:0 10px;
+}
+
+/* ================= CENTER WRAPPER ================= */
+
+.center-wrapper{
+  position:absolute;
+  width:min(90vw, 760px);
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  height:calc(100dvh - 100px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* ================= MOON ================= */
+
+.moon-bg{
+  position:absolute;
+  width:min(70vw, 430px);
+  height:min(70vw, 430px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.moon-img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+
+  animation:rotateMoon 205s linear infinite;
+
+  filter:
+    drop-shadow(0 0 6px rgba(255,255,255,.08))
+    drop-shadow(0 0 12px rgba(255,255,255,.04));
+}
+
+@keyframes rotateMoon{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
+}
+
+/* ================= MESSAGE ================= */
+
+.text-container{
+  position:absolute;
+  width:min(94vw, 940px);
+  height:90%;
+  max-height:100%;
+  text-align:center;
+
+  /* NO SCROLLING — everything must fit via the auto-fit function below */
+  overflow:hidden;
+
+  padding:0 15px 20px;
+}
+
+.type-line{
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+
+  font-family:Georgia,'Times New Roman',serif;
+  font-style:italic;
+
+  /* font-size and line-height are set dynamically by JS to guarantee fit */
+  font-size:1.5rem;
+  line-height:1.55;
+  letter-spacing:.2px;
+
+  color:#fffafc;
+  font-weight:500;
+
+  text-shadow:0 0 1px rgba(255,255,255,0.05);
+}
+
+.cursor{
+  display:inline-block;
+  animation:blink .7s infinite;
+}
+
+@keyframes blink{
+  0%,50%{ opacity:1; }
+  51%,100%{ opacity:0; }
+}
+
+/* ================= BUTTON ================= */
+
+.replay-btn{
+  position:fixed;
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  right:16px;
+  z-index:999;
+
+  padding:14px 24px;
+  border:none;
+  border-radius:999px;
+
+  background:linear-gradient(135deg,#f8f8f8,#d7d7d7,#b8b8b8);
+  color:#2f2f2f;
+  font-size:1rem;
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 22px rgba(255,255,255,.10),
+    0 0 20px rgba(255,255,255,.08);
+
+  border:1px solid rgba(255,255,255,.18);
+  transition:.3s;
+}
+
+.replay-btn:hover{
+  transform:translateY(-2px) scale(1.03);
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  .moon-bg{
+    width:min(78vw, 320px);
+    height:min(78vw, 320px);
+  }
+
+  .text-container{
+    padding:0 12px 20px;
+  }
+
+  .replay-btn{
+    right:12px;
+    bottom:calc(12px + env(safe-area-inset-bottom));
+    padding:11px 18px;
+    font-size:.9rem;
+  }
+}
+
+/* ================= START NOTE BUTTON ================= */
+
+.start-note-btn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:5;
+
+  padding:16px 34px;
+  border:none;
+  border-radius:999px;
+
+  background:linear-gradient(135deg,#f8f8f8,#d7d7d7,#b8b8b8);
+  color:#2f2f2f;
+
+  font-family:'Segoe Script','Bradley Hand','Brush Script MT','Lucida Handwriting',cursive;
+  font-weight:600;
+  font-size:1.25rem;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 22px rgba(255,255,255,.10),
+    0 0 20px rgba(255,255,255,.08);
+
+  border:1px solid rgba(255,255,255,.18);
+
+  transition:.3s;
+
+  animation:buttonPulse 2s infinite ease-in-out;
+}
+
+.start-note-btn:hover{
+  transform:translate(-50%,-50%) scale(1.05);
+}
+
+@keyframes buttonPulse{
+  0%,100%{ transform:translate(-50%,-50%) scale(1); }
+  50%{ transform:translate(-50%,-50%) scale(1.06); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Fixed Heading -->
+<h1 class="final-heading">
+  Thank You For Everything☺️🫂....
+</h1>
+
+<!-- Center Content -->
+<div class="center-wrapper">
+
+  <!-- Moon -->
+  <div class="moon-bg">
+    <img src="moon.png" alt="Moon" class="moon-img">
+  </div>
+
+  <!-- Message -->
+  <div class="text-container" id="textContainer">
+    <div class="type-line" id="typewriter"></div>
+  </div>
+
+</div>
+
+<!-- Replay -->
+<button class="replay-btn" id="replayBtn">
+  Replay
+</button>
+
+<!-- Read Note Button -->
+<button id="startNoteBtn" class="start-note-btn">
+  Play the Final Note💌
+</button>
+
+<script>
+/* ================= STARS ================= */
+
+const stars = document.getElementById('stars');
+
+for(let i = 0; i < 160; i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+
+  s.style.animationDelay = Math.random() * 3 + 's';
+  s.style.animationDuration = (2 + Math.random() * 3) + 's';
+
+  stars.appendChild(s);
+}
+
+/* ================= YOUR MESSAGE ================= */
+/* Replace the text below with your own message. Use \n for line breaks. */
+
+const message = `Meri Pagliii....😚🤭
+Thank You meri life ko itna sundar banake liye...
+Thank You mujhe ek Perfect person deneke liye...
+Thank You mujhe itni cute and pyari partner deneke liye...
+Thank You mujhe most beautiful women deneke liye...
+Thank You mujhe tumhe itna pyarr krne dene ke liyee...
+Thank You meri khushiyo ka part banne ke liye...
+Thank You meri life ki best memories me honeke liye...
+Thank You mujhe apnaa important timee deneke liyee... 
+Thank You mujhe mujhe sabke uperr choose krneke liyee...
+Thank You mujhe ek sachaa ,achaa insan bananeke liye...
+Thank You mujheee itna pyarrr aur caree denekee liyee...
+Thank You mujhe choose krneke liye jab sab against tha...
+Thank You hamesha jarurat padne pr khade rehneke liye... 
+Thank You hamesha samajhnee aur samajhaane ke liyeee...
+Thank You mujhe zhelneke liye jab jab maine tang kiya... 
+Thank You for supporting me everytime at my lowest...
+Thank You mere liye uncountable efforts leneke liye...
+Thank You for loving me infinite when i had nothing...
+Thank You mujhme belive krne jab kisine nahii kiyaa...
+Thank You stand leneke liye jab mai nahi le payaa...
+Thank You hamesha guide and motivate krneke liye...
+Thank You khudke uper bhi mujhe choose krneke liyee...
+Thank You infinite times mujhe special feel krvaneke liye...
+Thank You... Thank You... Thank You...Thank You.......
+Mujhe meri Life(TUM)... meri Duniya(TUM) and mera Sab Kuch(TUM) deneke liyee...
+
+I LOVE YOU INFINITE😚♾️🤭`;
+
+const typewriter = document.getElementById('typewriter');
+const textContainer = document.getElementById('textContainer');
+const replayBtn = document.getElementById('replayBtn');
+const startNoteBtn = document.getElementById('startNoteBtn');
+
+let interval;
+
+/* ================= AUTO-FIT (no scrolling) =================
+   Finds the largest font-size (and, if needed, a tighter
+   line-height/letter-spacing) so the ENTIRE message fits inside
+   the text container with zero overflow — computed once before
+   typing starts, so nothing shifts size mid-animation. */
+
+function computeFit(){
+
+  const maxFontSizePx = 34;
+  const minFontSizePx = 9;      // allowed to go quite small for long letters
+  const normalLineHeight = 1.55;
+  const tightLineHeight  = 1.15; // fallback if even min font size overflows
+
+  const clone = typewriter.cloneNode(false);
+  clone.style.position = 'absolute';
+  clone.style.visibility = 'hidden';
+  clone.style.pointerEvents = 'none';
+  clone.style.width = getComputedStyle(textContainer).width;
+  clone.innerHTML = message.replace(/\n/g,'<br>');
+
+  textContainer.appendChild(clone);
+
+  function fits(fontSizePx, lineHeight){
+    clone.style.fontSize = fontSizePx + 'px';
+    clone.style.lineHeight = lineHeight;
+    return clone.scrollHeight <= textContainer.clientHeight &&
+           clone.scrollWidth  <= textContainer.clientWidth;
+  }
+
+  let fontSize = maxFontSizePx;
+  let lineHeight = normalLineHeight;
+  let guard = 0;
+
+  // Step 1: shrink font size at normal line-height
+  while(!fits(fontSize, lineHeight) && fontSize > minFontSizePx && guard < 400){
+    fontSize -= 0.5;
+    guard++;
+  }
+
+  // Step 2: if still overflowing at the minimum font size,
+  // tighten the line-height as a last resort so it always fits.
+  if(!fits(fontSize, lineHeight)){
+    let lh = normalLineHeight;
+    guard = 0;
+    while(!fits(fontSize, lh) && lh > tightLineHeight && guard < 100){
+      lh -= 0.02;
+      guard++;
+    }
+    lineHeight = Math.max(lh, tightLineHeight);
+  }
+
+  textContainer.removeChild(clone);
+
+  return { fontSize, lineHeight };
+}
+
+function renderText(text, cursor = true){
+  typewriter.innerHTML =
+    text.replace(/\n/g,'<br>') +
+    (cursor ? '<span class="cursor">|</span>' : '');
+}
+
+function startTyping(){
+
+  clearInterval(interval);
+
+  let index = 0;
+
+  const { fontSize, lineHeight } = computeFit();
+  typewriter.style.fontSize = fontSize + 'px';
+  typewriter.style.lineHeight = lineHeight;
+
+  renderText('');
+
+  setTimeout(() => {
+
+    interval = setInterval(() => {
+
+      index++;
+
+      renderText(message.slice(0, index), true);
+
+      if(index >= message.length){
+        clearInterval(interval);
+        typewriter.innerHTML = message.replace(/\n/g,'<br>');
+      }
+
+    }, 35);
+
+  }, 1000);
+}
+
+replayBtn.addEventListener('click', startTyping);
+
+startNoteBtn.addEventListener('click', () => {
+  startNoteBtn.style.display = 'none';
+  startTyping();
+});
+</script>
+
+</body>
+</html>

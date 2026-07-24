@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<style>
+
+/* ================= BACKGROUND ================= */
+body{
+    margin:0;
+    overflow:hidden;
+    width:100%;
+    height:100dvh;
+    font-family:'Dancing Script',cursive;
+    background:radial-gradient(circle at center,#ffe6f2,#ffcce0);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+/* smooth background zoom */
+body::before{
+    content:"";
+    position:fixed;
+    width:120%;
+    height:120%;
+    background: radial-gradient(circle, #ffe6f2, #ffcce0);
+    z-index:-1;
+    transition: transform 1.5s cubic-bezier(0.65,0,0.35,1);
+}
+
+body.zoom::before{
+    transform: scale(1.08);
+}
+
+/* ================= CENTER ================= */
+.centerBox{
+    text-align:center;
+    z-index:10;
+    transition: all 0.8s cubic-bezier(0.65,0,0.35,1);
+}
+
+/* exit animation */
+.centerBox.exit{
+    opacity:0;
+    transform: translateY(-40px) scale(0.95);
+    filter: blur(8px);
+}
+
+/* ================= TEXT ================= */
+h1{
+  
+    font-size:clamp(2rem,5vw,4rem);
+    line-height:1.2;
+    padding:0 20px;
+
+    color:#fff;
+    text-shadow:0 0 10px #ff4da6, 0 0 25px #ff4da6;
+
+    opacity:0;
+    transform:translateY(30px);
+    animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ================= BUTTON ================= */
+button{
+    margin-top:30px;
+   padding:15px 38px;
+    font-size:clamp(1rem,2vw,1.25rem);
+    border:none;
+    border-radius:40px;
+    background:#ff2e63;
+    color:white;
+    cursor:pointer;
+
+    box-shadow:0 0 15px #ff2e63, 0 0 35px #ff2e63;
+    animation: pulse 1.5s infinite;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.12);
+}
+
+@keyframes pulse{
+    0%,100%{ box-shadow:0 0 15px #ff2e63; }
+    50%{ box-shadow:0 0 40px #ff2e63, 0 0 80px #ff2e63; }
+}
+
+/* ================= FLOWERS ================= */
+.flower{
+    position:fixed;
+    top:-50px;
+    font-size:30px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall{
+    0%{ transform:translateY(-50px) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(110vh) rotate(360deg); opacity:0.9; }
+}
+
+/* ================= PARTICLES ================= */
+.particle{
+    position:fixed;
+    width:5px;
+    height:5px;
+    background:#ff4da6;
+    border-radius:50%;
+    opacity:0.5;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{opacity:1;}
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
+
+/* ================= SOFT HEART ================= */
+.main-heart{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(0);
+    font-size:70px;
+    z-index:20;
+    animation: smoothHeart 1.2s cubic-bezier(0.65,0,0.35,1) forwards;
+}
+
+@keyframes smoothHeart{
+    0%{ transform:translate(-50%,-50%) scale(0); opacity:0; }
+    40%{ transform:translate(-50%,-50%) scale(2); opacity:1; }
+    100%{ transform:translate(-50%,-50%) scale(10); opacity:0; }
+}
+
+/* ================= SOFT OVERLAY ================= */
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), rgba(0,0,0,0.5));
+    backdrop-filter: blur(12px);
+    opacity:0;
+    z-index:30;
+    animation: smoothFade 1.2s forwards;
+}
+
+@keyframes smoothFade{
+    to{ opacity:1; }
+}
+
+.balloon{
+
+position:fixed;
+
+top:50%;
+
+transform:translateY(-50%);
+
+width:525px;
+
+z-index:5;
+
+
+}
+
+.left-balloons{
+width:325px;
+top:72%;
+left:-40px;
+
+}
+
+.right-balloons{
+width:325px;
+top:72%;
+right:-40px;
+
+}
+
+.extra-balloon{
+
+position:fixed;
+
+width:400px;
+
+z-index:6;
+
+}
+
+.top-left{
+
+top:-40px;
+
+left:100px;
+
+}
+
+.top-right{
+
+top:-40px;
+
+right:110px;
+
+}
+
+.top-lefta{
+
+top:-75px;
+
+left:260px;
+
+}
+
+.top-righta{
+
+top:-75px;
+
+right:260px;
+
+}
+
+.top-middle{
+
+width:450px;
+
+top:-85px;
+
+right:416px;
+
+}
+
+
+@media (max-width:768px){
+
+.balloon{
+    width:350px;
+}
+
+.left-balloons{
+top:55%;
+left:-170px;
+}
+
+.right-balloons{
+
+top:55%;
+right:-151px;
+}
+
+.extra-balloon{
+  
+width:500px;
+}
+ 
+.top-left{
+top:-45px;
+left:-150px;
+}
+
+.top-right{
+top:-48px;
+right:-150px;
+}
+
+.top-lefta{
+display:none;
+}
+
+.top-righta{
+display:none;
+}
+
+.top-middle{
+width:220px;
+top:-100px;
+left:50%;
+transform:translateX(-50%);
+right:auto;
+}
+
+.flower{
+font-size:clamp(18px,3vw,30px);
+}
+
+.centerBox{
+transform:translateY(-40px);
+}
+
+button{
+margin-top:18px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+<img src="balloons.png" class="balloon left-balloons">
+
+<img src="balloons.png" class="balloon right-balloons">
+
+<img src="balloonns.png" class="extra-balloon top-left">
+
+<img src="balloonns.png" class="extra-balloon top-right">
+
+<img src="balloonns.png" class="extra-balloon top-lefta">
+
+<img src="balloonns.png" class="extra-balloon top-righta">
+
+<img src="balloonns.png" class="extra-balloon top-middle">
+
+
+
+<div class="centerBox" id="mainBox">
+    <h1>Happiest Birthday<br>
+❤️ Niva ❤️</h1>
+    <button onclick="startSurprise()">Let's Celebrate 🥳</button>
+</div>
+
+<script>
+
+/* ================= FLOWERS ================= */
+function createFlower(){
+    const flower=document.createElement("div");
+    flower.classList.add("flower");
+
+    const flowers=["🌸","💮","🏵️"];
+    flower.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+
+    flower.style.left=Math.random()*100+"vw";
+    flower.style.animationDuration=(3+Math.random()*5)+"s";
+
+    document.body.appendChild(flower);
+    setTimeout(()=> flower.remove(),8000);
+}
+setInterval(createFlower,150);
+
+/* ================= PARTICLES ================= */
+function createParticle(){
+    const p=document.createElement("div");
+    p.classList.add("particle");
+
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(4+Math.random()*4)+"s";
+
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),8000);
+}
+setInterval(createParticle,200);
+
+/* ================= PREMIUM TRANSITION ================= */
+function startSurprise(){
+
+    const box = document.getElementById("mainBox");
+
+    document.body.classList.add("zoom");
+    box.classList.add("exit");
+
+    const heart=document.createElement("div");
+    heart.classList.add("main-heart");
+    heart.innerHTML="❤️";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        const overlay=document.createElement("div");
+        overlay.classList.add("overlay");
+        document.body.appendChild(overlay);
+    },400);
+
+       setTimeout(()=>{
+        window.location.href="build.html";
+    },1300);
+}
+
+</script>
+
+</body>
+</html>
